@@ -5,7 +5,8 @@
 *.cf
 work
 *.fst
-impl
+/**/impl/*
+!/**/impl/*_process_config.json
 *.user
 *.gtkw
 src/gw5a
