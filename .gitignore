@@ -1,0 +1,14 @@
+*~
+\#*
+.\#*
+*.ghw
+*.cf
+work
+*.fst
+impl
+*.user
+*.gtkw
+src/gw5a
+src/work
+sim_build
+results.xml

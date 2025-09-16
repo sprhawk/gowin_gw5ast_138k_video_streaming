@@ -1,0 +1,46 @@
+<?xml version="1" encoding="UTF-8"?>
+<!DOCTYPE gowin-fpga-project>
+<Project>
+    <Template>FPGA</Template>
+    <Version>5</Version>
+    <Device name="GW5AST-138B" pn="GW5AST-LV138FPG676AC1/I0">gw5ast138b-007</Device>
+    <FileList>
+        <File path="src/vendor_ip/pll_init.v" type="file.verilog" enable="1"/>
+        <File path="src/miim_controller.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/miim_pkg.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/thirdparty_ip/udp_ip_stack/IP_complete_nomac.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/thirdparty_ip/udp_ip_stack/IPv4.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/thirdparty_ip/udp_ip_stack/IPv4_RX.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/thirdparty_ip/udp_ip_stack/IPv4_TX.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/thirdparty_ip/udp_ip_stack/UDP_Complete_nomac.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/thirdparty_ip/udp_ip_stack/UDP_RX.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/thirdparty_ip/udp_ip_stack/UDP_TX.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/thirdparty_ip/udp_ip_stack/arp.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/thirdparty_ip/udp_ip_stack/arp_REQ.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/thirdparty_ip/udp_ip_stack/arp_RX.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/thirdparty_ip/udp_ip_stack/arp_STORE_br.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/thirdparty_ip/udp_ip_stack/arp_SYNC.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/thirdparty_ip/udp_ip_stack/arp_TX.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/thirdparty_ip/udp_ip_stack/arp_types.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/thirdparty_ip/udp_ip_stack/arpv2.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/thirdparty_ip/udp_ip_stack/axi.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/thirdparty_ip/udp_ip_stack/ipv4_types.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/thirdparty_ip/udp_ip_stack/tx_arbitrator.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/top.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/uart_app.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/udp_app.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/udp_app_store.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/vendor_ip/fifo_32bit/fifo_32bit.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/vendor_ip/gowin_pll/gowin_pll.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/vendor_ip/gowin_pll/gowin_pll_mod.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/vendor_ip/macaddr_fifo/macaddr_fifo.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/vendor_ip/triple_speed_ethernet_mac/triple_speed_ethernet_mac.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/vendor_ip/uart_master/uart_master.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/vendor_ip/xy2_ctrl_fifo/xy2_ctrl_fifo.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/vendor_ip/xy2_pll/xy2_pll.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/vendor_ip/xy2_pll/xy2_pll_mod.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/mega_138K_pro.cst" type="file.cst" enable="1"/>
+        <File path="src/ETH_138K_pro.sdc" type="file.sdc" enable="1"/>
+        <File path="src/udp_rx.rao" type="file.gao" enable="1"/>
+    </FileList>
+</Project>

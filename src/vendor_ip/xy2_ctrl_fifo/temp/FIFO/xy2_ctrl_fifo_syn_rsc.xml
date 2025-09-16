@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module name="xy2_ctrl_fifo" Register="40" Alu="14" Lut="51" Bsram="1" T_Register="40(40)" T_Alu="14(14)" T_Lut="51(51)" T_Bsram="1(1)"/>
