@@ -2,7 +2,7 @@
 <GAO_CONFIG>
     <Version>3.0</Version>
     <Mode>Standard</Mode>
-    <AoCore index="0" sample_clock="udp_app1/mac_rx_clk" trig_type="0" storage_depth="256" window_num="1" capture_amount="256" implementation="0" trigger_pos="40" module_name="top" force_trigger_by_falling_edge="false" capture_init_data_enabled="false">
+    <AoCore index="0" sample_clock="udp_app1/mac_rx_clk" trig_type="0" storage_depth="64" window_num="1" capture_amount="64" implementation="0" trigger_pos="40" module_name="top" force_trigger_by_falling_edge="false" capture_init_data_enabled="false">
         <SignalList>
             <Bus capture_enable="true" name="udp_app1/xy2_ctrl_fifo_wr_num[4:0]">
                 <Signal>udp_app1/xy2_ctrl_fifo_wr_num[4]</Signal>
@@ -197,7 +197,7 @@
             <Expression>M0</Expression>
         </Expressions>
     </AoCore>
-    <AoCore index="1" sample_clock="udp_app1/udp_tx1/udp_rx_block/clk" trig_type="0" storage_depth="256" window_num="1" capture_amount="256" implementation="0" trigger_pos="40" module_name="top" force_trigger_by_falling_edge="false" capture_init_data_enabled="false">
+    <AoCore index="1" sample_clock="udp_app1/udp_tx1/udp_rx_block/clk" trig_type="0" storage_depth="256" window_num="1" capture_amount="256" implementation="0" trigger_pos="10" module_name="top" force_trigger_by_falling_edge="false" capture_init_data_enabled="false">
         <SignalList>
             <Bus capture_enable="true" name="temac1/rx_mac_data[7:0]">
                 <Signal>temac1/rx_mac_data[7]</Signal>
@@ -211,98 +211,235 @@
             </Bus>
             <Signal capture_enable="true">temac1/rx_mac_valid</Signal>
             <Signal capture_enable="true">temac1/rx_mac_last</Signal>
-            <Signal capture_enable="true">udp_app1/udp_tx1/udp_rx_block/ip_rx_start</Signal>
+            <Signal capture_enable="true">udp_app1/udp_tx1/udp_rx_block/udp_rx_start_reg</Signal>
+            <Signal capture_enable="true">udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.is_valid</Signal>
+            <Bus capture_enable="true" name="udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.protocol[7:0]">
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.protocol[7]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.protocol[6]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.protocol[5]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.protocol[4]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.protocol[3]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.protocol[2]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.protocol[1]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.protocol[0]</Signal>
+            </Bus>
+            <Bus capture_enable="true" name="udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.data_length[15:0]">
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.data_length[15]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.data_length[14]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.data_length[13]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.data_length[12]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.data_length[11]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.data_length[10]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.data_length[9]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.data_length[8]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.data_length[7]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.data_length[6]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.data_length[5]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.data_length[4]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.data_length[3]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.data_length[2]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.data_length[1]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.data_length[0]</Signal>
+            </Bus>
+            <Bus capture_enable="true" name="udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.num_frame_errors[7:0]">
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.num_frame_errors[7]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.num_frame_errors[6]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.num_frame_errors[5]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.num_frame_errors[4]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.num_frame_errors[3]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.num_frame_errors[2]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.num_frame_errors[1]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.num_frame_errors[0]</Signal>
+            </Bus>
+            <Bus capture_enable="true" name="udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.last_error_code[3:0]">
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.last_error_code[3]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.last_error_code[2]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.last_error_code[1]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.last_error_code[0]</Signal>
+            </Bus>
+            <Signal capture_enable="true">udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.is_broadcast</Signal>
+            <Bus capture_enable="true" name="udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.data.data_in[7:0]">
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.data.data_in[7]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.data.data_in[6]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.data.data_in[5]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.data.data_in[4]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.data.data_in[3]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.data.data_in[2]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.data.data_in[1]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.data.data_in[0]</Signal>
+            </Bus>
             <Signal capture_enable="true">udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.data.data_in_valid</Signal>
             <Signal capture_enable="true">udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.data.data_in_last</Signal>
-            <Signal capture_enable="true">udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.is_valid</Signal>
-            <Signal capture_enable="true">udp_app1/udp_tx1/udp_rx_block/udp_rx_start_reg</Signal>
-            <Signal capture_enable="true">udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.is_valid</Signal>
-            <Signal capture_enable="true">udp_app1/udp_tx1/udp_rx_block/udp_rxo.data.data_in_valid</Signal>
-            <Signal capture_enable="true">udp_app1/udp_tx1/udp_rx_block/udp_rxo.data.data_in_last</Signal>
-            <Bus capture_enable="true" name="udp_app1/udp_tx1/udp_rx_block/udp_rxo.data.data_in[7:0]">
-                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.data.data_in[7]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.data.data_in[6]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.data.data_in[5]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.data.data_in[4]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.data.data_in[3]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.data.data_in[2]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.data.data_in[1]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.data.data_in[0]</Signal>
+            <Bus capture_enable="true" name="udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_pkt_count[7:0]">
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_pkt_count[7]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_pkt_count[6]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_pkt_count[5]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_pkt_count[4]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_pkt_count[3]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_pkt_count[2]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_pkt_count[1]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_pkt_count[0]</Signal>
             </Bus>
-            <Bus capture_enable="true" name="udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count[15:0]">
-                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count[15]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count[14]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count[13]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count[12]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count[11]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count[10]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count[9]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count[8]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count[7]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count[6]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count[5]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count[4]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count[3]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count[2]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count[1]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count[0]</Signal>
+            <Bus capture_enable="true" name="udp_app1/udp_tx1/IP_block/IP_layer/RX/dataval[7:0]">
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dataval[7]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dataval[6]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dataval[5]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dataval[4]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dataval[3]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dataval[2]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dataval[1]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dataval[0]</Signal>
             </Bus>
-            <Bus capture_enable="true" name="udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count_mode[1:0]">
-                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count_mode[1]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count_mode[0]</Signal>
+            <Bus capture_enable="true" name="udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_sequential.rx_count[15:0]">
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_sequential.rx_count[15]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_sequential.rx_count[14]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_sequential.rx_count[13]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_sequential.rx_count[12]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_sequential.rx_count[11]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_sequential.rx_count[10]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_sequential.rx_count[9]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_sequential.rx_count[8]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_sequential.rx_count[7]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_sequential.rx_count[6]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_sequential.rx_count[5]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_sequential.rx_count[4]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_sequential.rx_count[3]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_sequential.rx_count[2]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_sequential.rx_count[1]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_sequential.rx_count[0]</Signal>
             </Bus>
-            <Bus capture_enable="true" name="udp_app1/udp_tx1/udp_rx_block/dataval[7:0]">
-                <Signal>udp_app1/udp_tx1/udp_rx_block/dataval[7]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/dataval[6]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/dataval[5]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/dataval[4]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/dataval[3]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/dataval[2]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/dataval[1]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/dataval[0]</Signal>
+            <Bus capture_enable="true" name="udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_state[5:0]">
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_state.idle</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_state.eth_hdr</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_state.ip_hdr</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_state.user_data</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_state.wait_end</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_state.err</Signal>
             </Bus>
-            <Signal capture_enable="true">udp_app1/udp_tx1/udp_rx_block/rx_event</Signal>
-            <Bus capture_enable="true" name="udp_app1/udp_tx1/udp_rx_block/rx_state[2:0]">
-                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_state[2]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_state[1]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_state[0]</Signal>
+            <Signal capture_enable="true">udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_event</Signal>
+            <Bus capture_enable="true" name="udp_app1/udp_tx1/IP_block/IP_layer/RX/src_ip[31:0]">
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/src_ip[31]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/src_ip[30]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/src_ip[29]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/src_ip[28]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/src_ip[27]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/src_ip[26]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/src_ip[25]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/src_ip[24]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/src_ip[23]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/src_ip[22]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/src_ip[21]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/src_ip[20]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/src_ip[19]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/src_ip[18]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/src_ip[17]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/src_ip[16]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/src_ip[15]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/src_ip[14]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/src_ip[13]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/src_ip[12]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/src_ip[11]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/src_ip[10]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/src_ip[9]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/src_ip[8]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/src_ip[7]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/src_ip[6]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/src_ip[5]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/src_ip[4]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/src_ip[3]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/src_ip[2]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/src_ip[1]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/src_ip[0]</Signal>
             </Bus>
-            <Bus capture_enable="true" name="udp_app1/udp_tx1/udp_rx_block/data_len[15:0]">
-                <Signal>udp_app1/udp_tx1/udp_rx_block/data_len[15]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/data_len[14]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/data_len[13]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/data_len[12]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/data_len[11]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/data_len[10]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/data_len[9]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/data_len[8]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/data_len[7]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/data_len[6]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/data_len[5]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/data_len[4]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/data_len[3]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/data_len[2]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/data_len[1]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/data_len[0]</Signal>
+            <Bus capture_enable="true" name="udp_app1/udp_tx1/IP_block/IP_layer/RX/dst_ip_rx[31:0]">
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dst_ip_rx[31]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dst_ip_rx[30]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dst_ip_rx[29]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dst_ip_rx[28]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dst_ip_rx[27]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dst_ip_rx[26]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dst_ip_rx[25]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dst_ip_rx[24]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dst_ip_rx[23]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dst_ip_rx[22]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dst_ip_rx[21]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dst_ip_rx[20]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dst_ip_rx[19]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dst_ip_rx[18]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dst_ip_rx[17]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dst_ip_rx[16]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dst_ip_rx[15]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dst_ip_rx[14]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dst_ip_rx[13]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dst_ip_rx[12]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dst_ip_rx[11]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dst_ip_rx[10]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dst_ip_rx[9]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dst_ip_rx[8]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dst_ip_rx[7]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dst_ip_rx[6]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dst_ip_rx[5]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dst_ip_rx[4]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dst_ip_rx[3]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dst_ip_rx[2]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dst_ip_rx[1]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/dst_ip_rx[0]</Signal>
             </Bus>
-            <Bus capture_enable="true" name="udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.data_length[15:0]">
-                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.data_length[15]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.data_length[14]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.data_length[13]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.data_length[12]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.data_length[11]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.data_length[10]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.data_length[9]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.data_length[8]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.data_length[7]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.data_length[6]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.data_length[5]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.data_length[4]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.data_length[3]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.data_length[2]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.data_length[1]</Signal>
-                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.data_length[0]</Signal>
+            <Bus capture_enable="true" name="udp_app1/udp_tx1/IP_block/IP_layer/RX/data_len[15:0]">
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/data_len[15]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/data_len[14]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/data_len[13]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/data_len[12]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/data_len[11]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/data_len[10]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/data_len[9]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/data_len[8]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/data_len[7]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/data_len[6]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/data_len[5]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/data_len[4]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/data_len[3]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/data_len[2]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/data_len[1]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/data_len[0]</Signal>
             </Bus>
+            <Bus capture_enable="true" name="udp_app1/udp_tx1/IP_block/IP_layer/RX/frame_err_cnt[7:0]">
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/frame_err_cnt[7]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/frame_err_cnt[6]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/frame_err_cnt[5]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/frame_err_cnt[4]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/frame_err_cnt[3]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/frame_err_cnt[2]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/frame_err_cnt[1]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/frame_err_cnt[0]</Signal>
+            </Bus>
+            <Bus capture_enable="true" name="udp_app1/udp_tx1/IP_block/IP_layer/RX/error_code_reg[3:0]">
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/error_code_reg[3]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/error_code_reg[2]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/error_code_reg[1]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/error_code_reg[0]</Signal>
+            </Bus>
+            <Bus capture_enable="true" name="udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_pkt_counter[7:0]">
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_pkt_counter[7]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_pkt_counter[6]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_pkt_counter[5]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_pkt_counter[4]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_pkt_counter[3]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_pkt_counter[2]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_pkt_counter[1]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_pkt_counter[0]</Signal>
+            </Bus>
+            <Bus capture_enable="true" name="udp_app1/udp_tx1/IP_block/IP_layer/RX/set_frame_err_cnt[1:0]">
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/set_frame_err_cnt[1]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/set_frame_err_cnt[0]</Signal>
+            </Bus>
+            <Bus capture_enable="true" name="udp_app1/udp_tx1/IP_block/IP_layer/RX/set_pkt_cnt[1:0]">
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/set_pkt_cnt[1]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/set_pkt_cnt[0]</Signal>
+            </Bus>
+            <Signal capture_enable="true">udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx_start_reg</Signal>
+            <Signal capture_enable="true">udp_app1/udp_tx1/IP_block/IP_layer/RX/hdr_valid_reg</Signal>
+            <Signal capture_enable="true">udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_mac_in_last</Signal>
             <Bus capture_enable="false" name="udp_app1/udp_tx1/udp_rx_block/ip_rx.hdr.num_frame_errors[7:0]">
                 <Signal>udp_app1/udp_tx1/udp_rx_block/ip_rx.hdr.num_frame_errors[7]</Signal>
                 <Signal>udp_app1/udp_tx1/udp_rx_block/ip_rx.hdr.num_frame_errors[6]</Signal>
@@ -312,16 +449,6 @@
                 <Signal>udp_app1/udp_tx1/udp_rx_block/ip_rx.hdr.num_frame_errors[2]</Signal>
                 <Signal>udp_app1/udp_tx1/udp_rx_block/ip_rx.hdr.num_frame_errors[1]</Signal>
                 <Signal>udp_app1/udp_tx1/udp_rx_block/ip_rx.hdr.num_frame_errors[0]</Signal>
-            </Bus>
-            <Bus capture_enable="false" name="udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.protocol[7:0]">
-                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.protocol[7]</Signal>
-                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.protocol[6]</Signal>
-                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.protocol[5]</Signal>
-                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.protocol[4]</Signal>
-                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.protocol[3]</Signal>
-                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.protocol[2]</Signal>
-                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.protocol[1]</Signal>
-                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.protocol[0]</Signal>
             </Bus>
             <Bus capture_enable="false" name="udp_app1/udp_tx1/udp_rx_block/ip_rx.hdr.data_length[15:0]">
                 <Signal>udp_app1/udp_tx1/udp_rx_block/ip_rx.hdr.data_length[15]</Signal>
@@ -377,6 +504,162 @@
                 <Signal>udp_app1/udp_tx1/udp_rx_block/dst_port[1]</Signal>
                 <Signal>udp_app1/udp_tx1/udp_rx_block/dst_port[0]</Signal>
             </Bus>
+            <Signal capture_enable="false">udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.is_valid</Signal>
+            <Signal capture_enable="false">udp_app1/udp_tx1/udp_rx_block/udp_rxo.data.data_in_valid</Signal>
+            <Signal capture_enable="false">udp_app1/udp_tx1/udp_rx_block/udp_rxo.data.data_in_last</Signal>
+            <Bus capture_enable="false" name="udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count[15:0]">
+                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count[15]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count[14]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count[13]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count[12]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count[11]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count[10]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count[9]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count[8]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count[7]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count[6]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count[5]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count[4]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count[3]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count[2]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count[1]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count[0]</Signal>
+            </Bus>
+            <Bus capture_enable="false" name="udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count_mode[1:0]">
+                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count_mode[1]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_sequential.rx_count_mode[0]</Signal>
+            </Bus>
+            <Bus capture_enable="false" name="udp_app1/udp_tx1/udp_rx_block/dataval[7:0]">
+                <Signal>udp_app1/udp_tx1/udp_rx_block/dataval[7]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/dataval[6]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/dataval[5]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/dataval[4]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/dataval[3]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/dataval[2]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/dataval[1]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/dataval[0]</Signal>
+            </Bus>
+            <Signal capture_enable="false">udp_app1/udp_tx1/udp_rx_block/rx_event</Signal>
+            <Bus capture_enable="false" name="udp_app1/udp_tx1/udp_rx_block/rx_state[2:0]">
+                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_state[2]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_state[1]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/rx_state[0]</Signal>
+            </Bus>
+            <Bus capture_enable="false" name="udp_app1/udp_tx1/udp_rx_block/data_len[15:0]">
+                <Signal>udp_app1/udp_tx1/udp_rx_block/data_len[15]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/data_len[14]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/data_len[13]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/data_len[12]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/data_len[11]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/data_len[10]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/data_len[9]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/data_len[8]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/data_len[7]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/data_len[6]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/data_len[5]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/data_len[4]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/data_len[3]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/data_len[2]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/data_len[1]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/data_len[0]</Signal>
+            </Bus>
+            <Bus capture_enable="false" name="udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.data_length[15:0]">
+                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.data_length[15]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.data_length[14]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.data_length[13]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.data_length[12]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.data_length[11]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.data_length[10]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.data_length[9]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.data_length[8]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.data_length[7]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.data_length[6]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.data_length[5]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.data_length[4]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.data_length[3]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.data_length[2]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.data_length[1]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.hdr.data_length[0]</Signal>
+            </Bus>
+            <Bus capture_enable="false" name="udp_app1/udp_tx1/udp_rx_block/udp_rxo.data.data_in[7:0]">
+                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.data.data_in[7]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.data.data_in[6]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.data.data_in[5]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.data.data_in[4]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.data.data_in[3]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.data.data_in[2]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.data.data_in[1]</Signal>
+                <Signal>udp_app1/udp_tx1/udp_rx_block/udp_rxo.data.data_in[0]</Signal>
+            </Bus>
+            <Signal capture_enable="false">udp_app1/udp_tx1/IP_block/IP_layer/RX/is_broadcast_reg</Signal>
+            <Bus capture_enable="false" name="udp_app1/udp_tx1/IP_block/IP_layer/RX/our_ip_address[31:0]">
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/our_ip_address[31]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/our_ip_address[30]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/our_ip_address[29]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/our_ip_address[28]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/our_ip_address[27]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/our_ip_address[26]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/our_ip_address[25]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/our_ip_address[24]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/our_ip_address[23]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/our_ip_address[22]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/our_ip_address[21]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/our_ip_address[20]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/our_ip_address[19]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/our_ip_address[18]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/our_ip_address[17]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/our_ip_address[16]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/our_ip_address[15]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/our_ip_address[14]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/our_ip_address[13]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/our_ip_address[12]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/our_ip_address[11]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/our_ip_address[10]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/our_ip_address[9]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/our_ip_address[8]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/our_ip_address[7]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/our_ip_address[6]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/our_ip_address[5]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/our_ip_address[4]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/our_ip_address[3]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/our_ip_address[2]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/our_ip_address[1]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/our_ip_address[0]</Signal>
+            </Bus>
+            <Bus capture_enable="false" name="udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.src_ip_addr[31:0]">
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.src_ip_addr[31]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.src_ip_addr[30]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.src_ip_addr[29]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.src_ip_addr[28]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.src_ip_addr[27]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.src_ip_addr[26]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.src_ip_addr[25]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.src_ip_addr[24]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.src_ip_addr[23]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.src_ip_addr[22]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.src_ip_addr[21]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.src_ip_addr[20]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.src_ip_addr[19]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.src_ip_addr[18]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.src_ip_addr[17]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.src_ip_addr[16]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.src_ip_addr[15]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.src_ip_addr[14]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.src_ip_addr[13]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.src_ip_addr[12]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.src_ip_addr[11]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.src_ip_addr[10]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.src_ip_addr[9]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.src_ip_addr[8]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.src_ip_addr[7]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.src_ip_addr[6]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.src_ip_addr[5]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.src_ip_addr[4]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.src_ip_addr[3]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.src_ip_addr[2]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.src_ip_addr[1]</Signal>
+                <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/ip_rx.hdr.src_ip_addr[0]</Signal>
+            </Bus>
         </SignalList>
         <Triggers>
             <Trigger index="0">
@@ -389,8 +672,23 @@
                     <Signal>udp_app1/udp_tx1/IP_block/IP_layer/ip_rx_start</Signal>
                 </SignalList>
             </Trigger>
-            <Trigger index="2"/>
-            <Trigger index="3"/>
+            <Trigger index="2">
+                <SignalList>
+                    <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_event</Signal>
+                </SignalList>
+            </Trigger>
+            <Trigger index="3">
+                <SignalList>
+                    <Bus restorename="udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_state[5:0]">
+                        <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_state.idle</Signal>
+                        <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_state.eth_hdr</Signal>
+                        <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_state.ip_hdr</Signal>
+                        <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_state.user_data</Signal>
+                        <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_state.wait_end</Signal>
+                        <Signal>udp_app1/udp_tx1/IP_block/IP_layer/RX/rx_state.err</Signal>
+                    </Bus>
+                </SignalList>
+            </Trigger>
             <Trigger index="4"/>
             <Trigger index="5"/>
             <Trigger index="6"/>
@@ -407,8 +705,8 @@
         <MatchUnits>
             <MatchUnit index="0" enabled="1" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="1" value1="0" trigger="0"/>
             <MatchUnit index="1" enabled="1" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="1" value1="0" trigger="1"/>
-            <MatchUnit index="2" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="" value1=""/>
-            <MatchUnit index="3" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="" value1=""/>
+            <MatchUnit index="2" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="1" value1="0" trigger="2"/>
+            <MatchUnit index="3" enabled="1" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="001000" value1="000000" trigger="3"/>
             <MatchUnit index="4" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="" value1=""/>
             <MatchUnit index="5" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="" value1=""/>
             <MatchUnit index="6" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="" value1=""/>
@@ -423,8 +721,8 @@
             <MatchUnit index="15" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="" value1=""/>
         </MatchUnits>
         <Expressions type="Static">
-            <Expression>M0|M1</Expression>
+            <Expression>M0|M1|M3</Expression>
         </Expressions>
     </AoCore>
-    <GAO_ID>1000011000001100</GAO_ID>
+    <GAO_ID>0011010010110100</GAO_ID>
 </GAO_CONFIG>
