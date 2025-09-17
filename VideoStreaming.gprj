@@ -8,28 +8,28 @@
         <File path="src/vendor_ip/pll_init.v" type="file.verilog" enable="1"/>
         <File path="src/miim_controller.vhd" type="file.vhdl" enable="1"/>
         <File path="src/miim_pkg.vhd" type="file.vhdl" enable="1"/>
-        <File path="src/thirdparty_ip/udp_ip_stack/IP_complete_nomac.vhd" type="file.vhdl" enable="1"/>
-        <File path="src/thirdparty_ip/udp_ip_stack/IPv4.vhd" type="file.vhdl" enable="1"/>
-        <File path="src/thirdparty_ip/udp_ip_stack/IPv4_RX.vhd" type="file.vhdl" enable="1"/>
-        <File path="src/thirdparty_ip/udp_ip_stack/IPv4_TX.vhd" type="file.vhdl" enable="1"/>
-        <File path="src/thirdparty_ip/udp_ip_stack/UDP_Complete_nomac.vhd" type="file.vhdl" enable="1"/>
-        <File path="src/thirdparty_ip/udp_ip_stack/UDP_RX.vhd" type="file.vhdl" enable="1"/>
-        <File path="src/thirdparty_ip/udp_ip_stack/UDP_TX.vhd" type="file.vhdl" enable="1"/>
-        <File path="src/thirdparty_ip/udp_ip_stack/arp.vhd" type="file.vhdl" enable="1"/>
-        <File path="src/thirdparty_ip/udp_ip_stack/arp_REQ.vhd" type="file.vhdl" enable="1"/>
-        <File path="src/thirdparty_ip/udp_ip_stack/arp_RX.vhd" type="file.vhdl" enable="1"/>
-        <File path="src/thirdparty_ip/udp_ip_stack/arp_STORE_br.vhd" type="file.vhdl" enable="1"/>
-        <File path="src/thirdparty_ip/udp_ip_stack/arp_SYNC.vhd" type="file.vhdl" enable="1"/>
-        <File path="src/thirdparty_ip/udp_ip_stack/arp_TX.vhd" type="file.vhdl" enable="1"/>
-        <File path="src/thirdparty_ip/udp_ip_stack/arp_types.vhd" type="file.vhdl" enable="1"/>
-        <File path="src/thirdparty_ip/udp_ip_stack/arpv2.vhd" type="file.vhdl" enable="1"/>
-        <File path="src/thirdparty_ip/udp_ip_stack/axi.vhd" type="file.vhdl" enable="1"/>
-        <File path="src/thirdparty_ip/udp_ip_stack/ipv4_types.vhd" type="file.vhdl" enable="1"/>
-        <File path="src/thirdparty_ip/udp_ip_stack/tx_arbitrator.vhd" type="file.vhdl" enable="1"/>
         <File path="src/top.vhd" type="file.vhdl" enable="1"/>
         <File path="src/uart_app.vhd" type="file.vhdl" enable="1"/>
         <File path="src/udp_app.vhd" type="file.vhdl" enable="1"/>
         <File path="src/udp_app_store.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/udp_ip_stack/IP_complete_nomac.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/udp_ip_stack/IPv4.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/udp_ip_stack/IPv4_RX.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/udp_ip_stack/IPv4_TX.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/udp_ip_stack/UDP_Complete_nomac.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/udp_ip_stack/UDP_RX.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/udp_ip_stack/UDP_TX.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/udp_ip_stack/arp.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/udp_ip_stack/arp_REQ.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/udp_ip_stack/arp_RX.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/udp_ip_stack/arp_STORE_br.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/udp_ip_stack/arp_SYNC.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/udp_ip_stack/arp_TX.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/udp_ip_stack/arp_types.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/udp_ip_stack/arpv2.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/udp_ip_stack/axi.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/udp_ip_stack/ipv4_types.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/udp_ip_stack/tx_arbitrator.vhd" type="file.vhdl" enable="1"/>
         <File path="src/vendor_ip/fifo_32bit/fifo_32bit.vhd" type="file.vhdl" enable="1"/>
         <File path="src/vendor_ip/gowin_pll/gowin_pll.vhd" type="file.vhdl" enable="1"/>
         <File path="src/vendor_ip/gowin_pll/gowin_pll_mod.vhd" type="file.vhdl" enable="1"/>
