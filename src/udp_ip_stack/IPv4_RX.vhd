@@ -119,22 +119,16 @@ begin
   -- combinatorial process to implement FSM and determine control signals
   -----------------------------------------------------------------------
 
-  rx_combinatorial: process(
-    ip_rx_start_reg, hdr_valid_reg, protocol,
-    data_len, src_ip, frame_err_cnt, error_code_reg,
-    is_broadcast_reg, rx_pkt_counter
-  )
-  begin
-    ip_rx_start                <= ip_rx_start_reg;
-    ip_rx.hdr.is_valid         <= hdr_valid_reg;
-    ip_rx.hdr.protocol         <= protocol;
-    ip_rx.hdr.data_length      <= data_len;
-    ip_rx.hdr.src_ip_addr      <= src_ip;
-    ip_rx.hdr.num_frame_errors <= std_logic_vector(frame_err_cnt);
-    ip_rx.hdr.last_error_code  <= error_code_reg;
-    ip_rx.hdr.is_broadcast     <= is_broadcast_reg;
-    rx_pkt_count               <= std_logic_vector(rx_pkt_counter);
-  end process;
+  ip_rx_start                <= ip_rx_start_reg;
+  ip_rx.hdr.is_valid         <= hdr_valid_reg;
+  ip_rx.hdr.protocol         <= protocol;
+  ip_rx.hdr.data_length      <= data_len;
+  ip_rx.hdr.src_ip_addr      <= src_ip;
+  ip_rx.hdr.num_frame_errors <= std_logic_vector(frame_err_cnt);
+  ip_rx.hdr.last_error_code  <= error_code_reg;
+  ip_rx.hdr.is_broadcast     <= is_broadcast_reg;
+  rx_pkt_count               <= std_logic_vector(rx_pkt_counter);
+  ip_rx.data.data_in_last    <= set_data_last;
 
   -----------------------------------------------------------------------------
   -- sequential process to action control signals and change states and outputs
@@ -170,7 +164,6 @@ begin
         set_frame_err_cnt <= RST;
         ip_rx.data.data_in       <= (others => '0');
         ip_rx.data.data_in_valid <= '0';
-        ip_rx.data.data_in_last  <= '0';
 
         ip_mac_in_last <= '0';
         ip_mac_in_valid <= '0';
@@ -182,7 +175,6 @@ begin
         set_data_last     <= '0';
         ip_rx.data.data_in       <= (others => '0');
         ip_rx.data.data_in_valid <= '0';
-        ip_rx.data.data_in_last  <= '0';
 
         -- rx_event and dataval is registered
         -- so data_in_last is needed to be registered too
@@ -355,7 +347,6 @@ begin
                 ip_rx_start_reg          <= '1';
                 ip_rx.data.data_in       <= dataval;
                 ip_rx.data.data_in_valid <= ip_mac_in_valid;
-                ip_rx.data.data_in_last  <= set_data_last;
 
                 if rx_count = unsigned(data_len) then
                   ip_rx_start_reg <= '0';
@@ -375,6 +366,7 @@ begin
                     error_code_reg    <= RX_EC_ET_USER;
                     set_frame_err_cnt <= INCR;
                     ip_rx_start_reg <= '0';
+                    set_data_last     <= '1';
                     rx_state          <= IDLE;
                     rx_count_mode     := RST;
                   end if;

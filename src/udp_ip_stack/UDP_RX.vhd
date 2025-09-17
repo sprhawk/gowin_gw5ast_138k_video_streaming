@@ -260,12 +260,13 @@ begin
     
   -- end process;
 
-  udp_rx_start            <= udp_rx_start_reg;
-  udp_rxo.hdr.is_valid    <= hdr_valid_reg;
-  udp_rxo.hdr.data_length <= data_len;
-  udp_rxo.hdr.src_port    <= src_port;
-  udp_rxo.hdr.dst_port    <= dst_port;
-  udp_rxo.hdr.src_ip_addr <= src_ip_addr;
+  udp_rx_start               <= udp_rx_start_reg;
+  udp_rxo.hdr.is_valid       <= hdr_valid_reg;
+  udp_rxo.hdr.data_length    <= data_len;
+  udp_rxo.hdr.src_port       <= src_port;
+  udp_rxo.hdr.dst_port       <= dst_port;
+  udp_rxo.hdr.src_ip_addr    <= src_ip_addr;
+  udp_rxo.data.data_in_last  <= set_data_last;
 
   -----------------------------------------------------------------------------
   -- sequential process to action control signals and change states and outputs
@@ -295,7 +296,6 @@ begin
 
         udp_rxo.data.data_in       <= (others => '0');
         udp_rxo.data.data_in_valid <= '0';
-        udp_rxo.data.data_in_last  <= '0';
         ip_rx_data_in_last <= '0';
       else
         -- set signal defaults
@@ -305,7 +305,6 @@ begin
 
         udp_rxo.data.data_in       <= (others => '0');
         udp_rxo.data.data_in_valid <= '0';
-        udp_rxo.data.data_in_last  <= '0';
 
         udp_rx_start_reg <= '0';
 
@@ -313,7 +312,7 @@ begin
         case rx_count_mode is
           when RST     => rx_count := x"0000";
           when INCR    => rx_count := rx_count + 1;
-          when HOLD    => rx_count := rx_count;
+          when HOLD    =>
         end case;
 
         -- determine event (if any)
@@ -382,7 +381,6 @@ begin
                 udp_rx_start_reg           <= '1'; -- indicate frame received
                 udp_rxo.data.data_in       <= dataval;
                 udp_rxo.data.data_in_valid <= ip_rx_data_in_valid;
-                udp_rxo.data.data_in_last  <= ip_rx_data_in_last;
 
                 rx_count_mode := INCR;
                 if rx_count = unsigned(data_len) then
