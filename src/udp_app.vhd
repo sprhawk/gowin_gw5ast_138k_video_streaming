@@ -424,7 +424,7 @@ begin
     variable rx_data: std_logic_vector(7 downto 0);
 
     variable rx_counter_mode: counter_mode_t;
-    variable rx_count: unsigned(10 downto 0);
+    variable rx_count: unsigned(15 downto 0);
     variable rx_left: unsigned (7 downto 0);
   begin
     if rising_edge(mac_rx_clk) then
@@ -461,7 +461,6 @@ begin
 
             if udp_rx_start = '1' and udp_rxo.data.data_in_valid = '1' then
               req_data := unsigned(udp_rxo.data.data_in);
-              rx_counter_mode := INCR;
               if ((unsigned(udp_rxo.hdr.dst_port) >= host_port)
                   and (unsigned(udp_rxo.hdr.dst_port) < (host_port + 10))) then
                 case req_data is
@@ -469,10 +468,14 @@ begin
                     -- notify tx_proc to start tx
                     -- here is cross domain clock problem
                     if (unsigned(udp_rxo.hdr.dst_port) = host_port) then
+                      rx_count        := x"0001";
+                      rx_counter_mode := HOLD;
                       rx_state <= RX_REQ_NUM;
                     end if;
                   when udp_cmd_resp_data =>
                     if (unsigned(udp_rxo.hdr.dst_port) = host_port) then
+                      rx_count        := x"0001";
+                      rx_counter_mode := HOLD;
                       rx_state <= RX_RESP_DATA;
                     end if;
                   when others =>
@@ -509,19 +512,19 @@ begin
                 rx_counter_mode := INCR;
                 rx_data := udp_rxo.data.data_in;
                 case rx_count is
-                  when 11x"001" =>
+                  when x"0001" =>
                     rx_data_index(31 downto 24) <= unsigned(rx_data);
-                  when 11x"002" =>
+                  when x"0002" =>
                     rx_data_index(23 downto 16) <= unsigned(rx_data);
-                  when 11x"003" =>
+                  when x"0003" =>
                     rx_data_index(15 downto 8) <= unsigned(rx_data);
-                  when 11x"004" =>
+                  when x"0004" =>
                     rx_data_index(7 downto 0) <= unsigned(rx_data);
-                  when 11x"005" =>
+                  when x"0005" =>
                     rx_data_length(15 downto 8) <= unsigned(rx_data);
-                  when 11x"006" =>
+                  when x"0006" =>
                     rx_data_length(7 downto 0) <= unsigned(rx_data);
-                  when 11x"007" =>
+                  when x"0007" =>
                     rx_left := unsigned(rx_data);
                   when others =>
                     data_store_write <= '1';
@@ -712,6 +715,8 @@ begin
   end process;
 
   xy2_ctrl_fifo_wr_en <= data_store_read_valid;
+
+  xy2_ctrl_fifo_rd_en <= not xy2_ctrl_fifo_empty_2M;
 
   xy2_ctrl_fifo1: xy2_ctrl_fifo
 	port map (
