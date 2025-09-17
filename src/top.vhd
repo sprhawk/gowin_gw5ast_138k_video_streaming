@@ -219,6 +219,9 @@ begin
   pll_reset <= not rstn;
   miim_clk <= sys_clk;
 
+  our_ip_address <= x"c0a80309";	-- 192.168.3.9
+  our_mac_address <= x"002320212223";
+
   udp_app1: udp_app
     port map (
       rstn => rstn,
