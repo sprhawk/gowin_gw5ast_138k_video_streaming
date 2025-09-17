@@ -379,7 +379,7 @@ begin
               when NO_EVENT => -- (nothing to do)
               when DATA =>
                 -- note: data gets transfered upstream as part of "output followers" processing
-                udp_rx_start_reg <= '1'; -- indicate frame received
+                udp_rx_start_reg           <= '1'; -- indicate frame received
                 udp_rxo.data.data_in       <= dataval;
                 udp_rxo.data.data_in_valid <= ip_rx_data_in_valid;
                 udp_rxo.data.data_in_last  <= ip_rx_data_in_last;
