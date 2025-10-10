@@ -168,7 +168,7 @@ begin
     mac_data_out_last <= '0';
     ip_tx_data_out_ready <= '0';
     -- total length = user data length + header length (bytes)
-    total_length <= std_logic_vector(unsigned(ip_tx.hdr.data_length) + 20);
+    -- total_length <= std_logic_vector(unsigned(ip_tx.hdr.data_length) + 20);
     case tx_state is
       when SEND_ETH_HDR | SEND_IP_HDR =>
         if (mac_data_out_ready = '1') and (data_out_first_done = '0') then
@@ -227,6 +227,8 @@ begin
             tx_state <= IDLE;
             first_done := '0';
             if ip_tx_start = '1' then
+              -- total length = user data length + header length (bytes)
+              total_length <= std_logic_vector(unsigned(ip_tx.hdr.data_length) + 20);
               if unsigned(ip_tx.hdr.data_length) > 1480 then
                 tx_result_reg <= IPTX_RESULT_ERR;
               else
