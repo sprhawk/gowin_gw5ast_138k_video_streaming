@@ -43,9 +43,10 @@ entity arp_SYNC is
     send_I_have           : out std_logic;
     arp_entry             : out arp_entry_t;
     -- RX to REQ
-    I_have_received_rxc   : in  std_logic;
-    arp_entry_for_I_recv_rxc  : in  arp_entry_t;
-    arp_nwk_result_txc        : out  arp_nwk_result_t;
+    I_have_received_rxc     : in  std_logic;
+    arp_entry_for_I_recv_rxc: in  arp_entry_t;
+    I_have_received_txc     : out  std_logic;
+    arp_nwk_result_txc      : out  arp_nwk_result_t;
     -- nwk_result_status     : out arp_nwk_rslt_t;
     -- System Signals
     rx_clk                : in  std_logic;
@@ -376,13 +377,14 @@ begin
       else
         arp_nwk_rslt_fifo_rd_en <= '0';
         arp_nwk_result_txc.status <= IDLE;
-
+        I_have_received_txc <= '0';
         -- delay 2 cycles to match output of FIFO with reg
         if counter /= 0 then
           counter := counter + 1;
           if counter = 2 then
             arp_nwk_rslt_fifo_rd_en <= '1';
           elsif counter = 4 then
+            I_have_received_txc <= '1';
             arp_nwk_result_txc.status <= RECEIVED;
             counter := 3x"0";
           end if;
@@ -465,7 +467,7 @@ begin
   --     Empty => arp_req_ipaddr_fifo_empty,
   --     Full => arp_req_ipaddr_fifo_full
   --     );
-
+  
   -- arp_req_rslt_rx_latch_proc: process(rx_clk)
   -- begin
   --   if rising_edge(rx_clk) then

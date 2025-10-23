@@ -184,6 +184,7 @@ architecture structural of arpv2 is
       -- RX to REQ
       I_have_received_rxc       : in  std_logic;
       arp_entry_for_I_recv_rxc  : In  arp_entry_t;
+      I_have_received_txc     : out  std_logic;
       arp_nwk_result_txc        : out  arp_nwk_result_t;
       -- nwk_result_status     : out arp_nwk_rslt_t;
       -- System Signals
@@ -267,6 +268,7 @@ begin
     -- RX to REQ
     I_have_received_rxc   => recv_I_have_int_from_rx,
     arp_entry_for_I_recv_rxc => arp_entry_for_I_have_from_rx,
+    I_have_received_txc   => recv_I_have_int_to_store,
     arp_nwk_result_txc    => arp_nwk_result_int,
     -- nwk_result_status     => nwk_result_status_to_req,
     -- system
