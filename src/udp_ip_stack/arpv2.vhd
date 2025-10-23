@@ -166,24 +166,26 @@ architecture structural of arpv2 is
 
   component arp_sync
     port (
-      -- REQ to TX
-      arp_nwk_req           : in  arp_nwk_request_t;  -- request for a translation from IP to MAC
-      send_who_has          : out std_logic;
-      ip_entry              : out std_logic_vector (31 downto 0);
-      -- IPv4_TX to REQ
-      arp_req_req_in        : in arp_req_req_type;
-      arp_req_req_out       : out arp_req_req_type;
-      -- REQ to IPv4_TX
-      arp_req_rslt_in       : in arp_req_rslt_type;
-      arp_req_rslt_out      : out arp_req_rslt_type;
+      -- -- REQ to TX
+      -- arp_nwk_req           : in  arp_nwk_request_t;  -- request for a translation from IP to MAC
+      -- send_who_has          : out std_logic;
+      -- ip_entry              : out std_logic_vector (31 downto 0);
+      -- -- IPv4_TX to REQ
+      -- arp_req_req_in        : in arp_req_req_type;
+      -- arp_req_req_out       : out arp_req_req_type;
+      -- -- REQ to IPv4_TX
+      -- arp_req_rslt_in       : in arp_req_rslt_type;
+      -- arp_req_rslt_out      : out arp_req_rslt_type;
       -- RX to TX
       recv_who_has          : in  std_logic;          -- this is for us, we will respond
       arp_entry_for_who_has : in  arp_entry_t;
       send_I_have           : out std_logic;
       arp_entry             : out arp_entry_t;
       -- RX to REQ
-      I_have_received       : in  std_logic;
-      nwk_result_status     : out arp_nwk_rslt_t;
+      I_have_received_rxc       : in  std_logic;
+      arp_entry_for_I_recv_rxc  : In  arp_entry_t;
+      arp_nwk_result_txc        : out  arp_nwk_result_t;
+      -- nwk_result_status     : out arp_nwk_rslt_t;
       -- System Signals
       rx_clk                : in  std_logic;
       tx_clk                : in  std_logic;
@@ -197,26 +199,25 @@ architecture structural of arpv2 is
 
   signal send_I_have_int  : std_logic;
   signal arp_entry_int    : arp_entry_t;
-  signal send_who_has_int : std_logic;
-  signal ip_entry_int     : std_logic_vector (31 downto 0);
+  -- signal send_who_has_int : std_logic;
+  -- signal ip_entry_int     : std_logic_vector (31 downto 0);
 
   -- interconnect REQ <-> ARP_STORE
   signal arp_store_req_int    : arp_store_rdrequest_t;  -- lookup request
   signal arp_store_result_int : arp_store_result_t;     -- lookup result
 
   -- interconnect ARP_RX -> REQ
-  signal nwk_result_status_int : arp_nwk_rslt_t;  -- response from a TX req
+  signal arp_nwk_result_int : arp_nwk_result_t;  -- response from a TX req
+  signal arp_entry_for_I_have_from_rx : arp_entry_t;
+  signal arp_nwk_I_recv_to_store_txc: std_logic;
 
   -- interconnect ARP_RX -> ARP_STORE
-  signal recv_I_have_int          : std_logic;  -- path to store new arp entry
-  signal arp_entry_for_I_have_int : arp_entry_t;
+  signal recv_I_have_int_from_rx          : std_logic;  -- path to store new arp entry
+  signal recv_I_have_int_to_store          : std_logic;  -- path to store new arp entry
 
   -- interconnect ARP_RX -> ARP_TX
   signal recv_who_has_int          : std_logic;    -- path for reply when we can anser
-  signal arp_entry_for_who_has_int : arp_entry_t;  -- target for who_has msg (ie, who to reply to)
-  
-  signal arp_req_req_to_req       : arp_req_req_type;
-  signal arp_req_rslt_from_req       : arp_req_rslt_type;
+  signal arp_entry_for_who_has_int_rxc : arp_entry_t;  -- target for who_has msg (ie, who to reply to)
 begin
 
 
@@ -229,44 +230,45 @@ begin
       )
     port map (
       -- lookup request signals
-      arp_req_req           => arp_req_req_to_req,
-      arp_req_rslt          => arp_req_rslt_from_req,
+      arp_req_req           => arp_req_req,
+      arp_req_rslt          => arp_req_rslt,
       -- external arp store signals
       arp_store_req         => arp_store_req_int,
       arp_store_result      => arp_store_result_int,
       -- network request signals
       arp_nwk_req           => arp_nwk_req_int,
-      arp_nwk_result.status => nwk_result_status_int,
-      arp_nwk_result.entry  => arp_entry_for_I_have_int,
+      arp_nwk_result        => arp_nwk_result_int,
       -- system signals
       clear_cache           => control.clear_cache,
       nwk_gateway           => nwk_gateway,
       nwk_mask              => nwk_mask,
-      clk                   => data_in_clk,
+      clk                   => data_out_clk,
       reset                 => reset
       );
 
   sync : arp_sync port map (
-    -- REQ to TX
-    arp_nwk_req           => arp_nwk_req_int,
-    send_who_has          => send_who_has_int,
-    ip_entry              => ip_entry_int,
-    -- IPv4_TX to REQ
-    arp_req_req_in        => arp_req_req,
-    arp_req_req_out       => arp_req_req_to_req,
+    -- -- REQ to TX
+    -- arp_nwk_req           => arp_nwk_req_int,
+    -- send_who_has          => send_who_has_int,
+    -- ip_entry              => ip_entry_int,
+    -- -- IPv4_TX to REQ
+    -- arp_req_req_in        => arp_req_req,
+    -- arp_req_req_out       => arp_req_req_to_req,
 
-    -- REQ to IPv4_TX
-    arp_req_rslt_in       => arp_req_rslt_from_req,
-    arp_req_rslt_out      => arp_req_rslt,
+    -- -- REQ to IPv4_TX
+    -- arp_req_rslt_in       => arp_req_rslt_from_req,
+    -- arp_req_rslt_out      => arp_req_rslt,
     
     -- RX to TX
     recv_who_has          => recv_who_has_int,
-    arp_entry_for_who_has => arp_entry_for_who_has_int,
+    arp_entry_for_who_has => arp_entry_for_who_has_int_rxc,
     send_I_have           => send_I_have_int,
     arp_entry             => arp_entry_int,
     -- RX to REQ
-    I_have_received       => recv_I_have_int,
-    nwk_result_status     => nwk_result_status_int,
+    I_have_received_rxc   => recv_I_have_int_from_rx,
+    arp_entry_for_I_recv_rxc => arp_entry_for_I_have_from_rx,
+    arp_nwk_result_txc    => arp_nwk_result_int,
+    -- nwk_result_status     => nwk_result_status_to_req,
     -- system
     rx_clk                => data_in_clk,
     tx_clk                => data_out_clk,
@@ -277,8 +279,10 @@ begin
     -- control signals
     send_I_have     => send_I_have_int,
     arp_entry       => arp_entry_int,
-    send_who_has    => send_who_has_int,
-    ip_entry        => ip_entry_int,
+    -- send_who_has    => send_who_has_int,
+    -- ip_entry        => ip_entry_int,
+    send_who_has    => arp_nwk_req_int.req,
+    ip_entry        => arp_nwk_req_int.ip,
     -- MAC layer TX signals
     mac_tx_req      => mac_tx_req,
     mac_tx_granted  => mac_tx_granted,
@@ -301,9 +305,9 @@ begin
     data_in_last          => data_in_last,
     -- ARP output signals
     recv_who_has          => recv_who_has_int,
-    arp_entry_for_who_has => arp_entry_for_who_has_int,
-    recv_I_have           => recv_I_have_int,
-    arp_entry_for_I_have  => arp_entry_for_I_have_int,
+    arp_entry_for_who_has => arp_entry_for_who_has_int_rxc,
+    recv_I_have           => recv_I_have_int_from_rx,
+    arp_entry_for_I_have  => arp_entry_for_I_have_from_rx,
     -- control and status signals
     req_count             => req_count,
     -- system signals
@@ -311,6 +315,10 @@ begin
     rx_clk                => data_in_clk,
     reset                 => reset
     );
+
+  with arp_nwk_result_int.status select
+    arp_nwk_I_recv_to_store_txc <= '1' when RECEIVED,
+    '0' when others;
 
   store : arp_store_br
     generic map (
@@ -321,13 +329,13 @@ begin
       read_req        => arp_store_req_int,
       read_result     => arp_store_result_int,
       -- write signals
-      write_req.req   => recv_I_have_int,
-      write_req.entry => arp_entry_for_I_have_int,
+      write_req.req   => recv_I_have_int_to_store,
+      write_req.entry => arp_nwk_result_int.entry,
       -- control and status signals
       clear_store     => control.clear_cache,
       entry_count     => open,
       -- system signals
-      clk             => data_in_clk,
+      clk             => data_out_clk,
       reset           => reset
       );
 

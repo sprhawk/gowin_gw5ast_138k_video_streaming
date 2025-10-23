@@ -63,6 +63,8 @@ architecture Behavioral of arp_tx is
   signal tx_mode          : tx_mode_t;  -- what sort of tx to make
   signal target           : arp_entry_t;  -- target to send to
 
+  -- due to changed req/sync
+  signal ip_entry_reg     : std_logic_vector (31 downto 0);
   -- busses
   signal next_tx_state : tx_state_t;
 
@@ -128,6 +130,7 @@ begin
         end if;
         if send_who_has = '1' then
           set_send_who_has <= SET;
+          ip_entry_reg <= ip_entry;
         end if;
 
         set_chn_reqd <= HOLD;
@@ -300,7 +303,7 @@ begin
         case set_send_who_has is
           when SET =>
             send_who_has_reg <= '1';
-            who_has_target   <= ip_entry;
+            who_has_target   <= ip_entry_reg;
           when CLR =>
             send_who_has_reg <= '0';
             who_has_target   <= who_has_target;
