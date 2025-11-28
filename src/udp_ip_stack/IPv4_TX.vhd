@@ -81,7 +81,7 @@ architecture Behavioral of IPv4_TX is
 
   -- TX state variables
   signal tx_state               : tx_state_type;
-  -- signal tx_count               : unsigned (11 downto 0);
+  signal tx_count               : unsigned (11 downto 0);
   signal tx_result_reg          : std_logic_vector (1 downto 0);
   signal tx_mac                 : std_logic_vector (47 downto 0);
   signal tx_mac_chn_reqd        : std_logic;
@@ -99,7 +99,7 @@ architecture Behavioral of IPv4_TX is
   signal set_tx_result   : std_logic;
   signal tx_mac_value    : std_logic_vector (47 downto 0);
   signal set_tx_mac      : std_logic;
-  signal tx_count_val    : unsigned (11 downto 0);
+  -- signal tx_count_val    : unsigned (11 downto 0);
   -- signal tx_count_mode   : settable_cnt_type;
   signal set_chn_reqd    : set_clr_type;
   signal set_mac_lku_req : set_clr_type;
@@ -195,16 +195,16 @@ begin
   
   
   tx_data_seq_proc: process(clk)
-    variable tx_count: unsigned(11 downto 0) := (others => '0');
-    variable tx_count_mode: settable_cnt_type;
+    -- variable tx_count: unsigned(11 downto 0) := (others => '0');
+    variable tx_count_mode: count_mode_type;
     variable first_done: std_logic;
   begin
     if rising_edge(clk) then
       if reset = '1' then
-        tx_count := (others => '0');
+        tx_count <= (others => '0');
         tx_count_mode := RST;
         set_chn_reqd <= CLR;
-        tx_count_val <= (others => '0');
+        -- tx_count_val <= (others => '0');
         tx_result_reg <= IPTX_RESULT_NONE;
         tx_state <= IDLE;
         tx_mac <= (others => '0');
@@ -216,7 +216,7 @@ begin
       else
         mac_lookup_req <= '0';
         tx_data <= (others => '0');
-        set_chn_reqd <= CLR;
+        set_chn_reqd <= HOLD;
         tx_data_valid <= '0';
 
         case tx_state is
@@ -264,66 +264,66 @@ begin
           when SEND_ETH_HDR =>
             tx_data_valid <= '1';
             if mac_data_out_ready = '1' then
-              if data_out_first_done = '0' then
-                tx_count := x"001";
-                data_out_first_done <= '1';
-              end if;
               tx_count_mode := INCR;
+              case tx_count is
+                when x"000" => tx_data <= tx_mac (39 downto 32);
+                when x"001" => tx_data <= tx_mac (31 downto 24);
+                when x"002" => tx_data <= tx_mac (23 downto 16);
+                when x"003" => tx_data <= tx_mac (15 downto 8);
+                when x"004" => tx_data <= tx_mac (7 downto 0);
+                when x"005" => tx_data <= our_mac_address (47 downto 40);  -- src = our mac
+                when x"006" => tx_data <= our_mac_address (39 downto 32);
+                when x"007" => tx_data <= our_mac_address (31 downto 24);
+                when x"008" => tx_data <= our_mac_address (23 downto 16);
+                when x"009" => tx_data <= our_mac_address (15 downto 8);
+                when x"00a" => tx_data <= our_mac_address (7 downto 0);
+                when x"00b" => tx_data <= x"08";  -- pkt type = 0800 : IP
+                when x"00c" => tx_data <= x"00";
+                               tx_count_mode := RST;
+                               tx_state <= SEND_IP_HDR;
+                when others =>
+                  tx_result_reg <= IPTX_RESULT_ERR;
+                  tx_state <= IDLE;
+              end case;
+            else
+              tx_data <= tx_mac (47 downto 40);  -- trg = mac from ARP lookup
             end if;
-            case tx_count is
-              when x"000" => tx_data <= tx_mac (47 downto 40);  -- trg = mac from ARP lookup
-              when x"001" => tx_data <= tx_mac (39 downto 32);
-              when x"002" => tx_data <= tx_mac (31 downto 24);
-              when x"003" => tx_data <= tx_mac (23 downto 16);
-              when x"004" => tx_data <= tx_mac (15 downto 8);
-              when x"005" => tx_data <= tx_mac (7 downto 0);
-              when x"006" => tx_data <= our_mac_address (47 downto 40);  -- src = our mac
-              when x"007" => tx_data <= our_mac_address (39 downto 32);
-              when x"008" => tx_data <= our_mac_address (31 downto 24);
-              when x"009" => tx_data <= our_mac_address (23 downto 16);
-              when x"00a" => tx_data <= our_mac_address (15 downto 8);
-              when x"00b" => tx_data <= our_mac_address (7 downto 0);
-              when x"00c" => tx_data <= x"08";  -- pkt type = 0800 : IP
-              when x"00d" => tx_data <= x"00";
-                             tx_count_mode := RST;
-                             tx_state <= SEND_IP_HDR;
-              when others =>
-                tx_result_reg <= IPTX_RESULT_ERR;
-                tx_state <= IDLE;
-            end case;
               
           when SEND_IP_HDR =>
             tx_data_valid <= '1';
             if mac_data_out_ready = '1' then
               tx_count_mode := INCR;
+              case tx_count is
+                when x"000" => tx_data <= x"45";  -- v4, 5 words in hdr
+                when x"001" => tx_data <= x"00";  -- service type
+                when x"002" => tx_data <= total_length (15 downto 8);            -- total length
+                when x"003" => tx_data <= total_length (7 downto 0);
+                when x"004" => tx_data <= x"00";  -- identification
+                when x"005" => tx_data <= x"00";
+                when x"006" => tx_data <= x"00";  -- flags and fragment offset
+                when x"007" => tx_data <= x"00";
+                when x"008" => tx_data <= IP_TTL;                                -- TTL
+                when x"009" => tx_data <= ip_tx.hdr.protocol;                    -- protocol
+                when x"00a" => tx_data <= tx_hdr_cks (15 downto 8);              -- HDR checksum
+                when x"00b" => tx_data <= tx_hdr_cks (7 downto 0);               -- HDR checksum
+                when x"00c" => tx_data <= our_ip_address (31 downto 24);         -- src ip
+                when x"00d" => tx_data <= our_ip_address (23 downto 16);
+                when x"00e" => tx_data <= our_ip_address (15 downto 8);
+                when x"00f" => tx_data <= our_ip_address (7 downto 0);
+                when x"010" => tx_data <= ip_tx.hdr.dst_ip_addr (31 downto 24);  -- dst ip
+                when x"011" => tx_data <= ip_tx.hdr.dst_ip_addr (23 downto 16);
+                when x"012" => tx_data <= ip_tx.hdr.dst_ip_addr (15 downto 8);
+                when x"013" => tx_data <= ip_tx.hdr.dst_ip_addr (7 downto 0);
+                               tx_state <= SEND_USER_DATA;
+                               tx_count_mode := RST;
+                when others =>
+                  tx_result_reg <= IPTX_RESULT_ERR;
+                  tx_state <= IDLE;
+              end case;
+            else
+              tx_result_reg <= IPTX_RESULT_ERR;
+              tx_state <= IDLE;
             end if;
-            case tx_count is
-              when x"000" => tx_data <= x"45";  -- v4, 5 words in hdr
-              when x"001" => tx_data <= x"00";  -- service type
-              when x"002" => tx_data <= total_length (15 downto 8);            -- total length
-              when x"003" => tx_data <= total_length (7 downto 0);
-              when x"004" => tx_data <= x"00";  -- identification
-              when x"005" => tx_data <= x"00";
-              when x"006" => tx_data <= x"00";  -- flags and fragment offset
-              when x"007" => tx_data <= x"00";
-              when x"008" => tx_data <= IP_TTL;                                -- TTL
-              when x"009" => tx_data <= ip_tx.hdr.protocol;                    -- protocol
-              when x"00a" => tx_data <= tx_hdr_cks (15 downto 8);              -- HDR checksum
-              when x"00b" => tx_data <= tx_hdr_cks (7 downto 0);               -- HDR checksum
-              when x"00c" => tx_data <= our_ip_address (31 downto 24);         -- src ip
-              when x"00d" => tx_data <= our_ip_address (23 downto 16);
-              when x"00e" => tx_data <= our_ip_address (15 downto 8);
-              when x"00f" => tx_data <= our_ip_address (7 downto 0);
-              when x"010" => tx_data <= ip_tx.hdr.dst_ip_addr (31 downto 24);  -- dst ip
-              when x"011" => tx_data <= ip_tx.hdr.dst_ip_addr (23 downto 16);
-              when x"012" => tx_data <= ip_tx.hdr.dst_ip_addr (15 downto 8);
-              when x"013" => tx_data <= ip_tx.hdr.dst_ip_addr (7 downto 0);
-                             tx_state <= SEND_USER_DATA;
-                             tx_count_mode := RST;
-              when others =>
-                tx_result_reg <= IPTX_RESULT_ERR;
-                tx_state <= IDLE;
-            end case;
           when SEND_USER_DATA =>
             tx_data_valid <= '1';
             if mac_data_out_ready = '1' then
@@ -343,6 +343,7 @@ begin
                   end if;
                 elsif ip_tx.data.data_out_last = '1' then
                   -- TX terminated due to receiving last indication from upstream - end with error
+                  tx_data_valid <= '0';
                   set_chn_reqd <= CLR;
                   tx_state <= IDLE;
                   tx_result_reg <= IPTX_RESULT_ERR;
@@ -351,16 +352,19 @@ begin
                   -- TX continues
                 end if;
               end if;
+            else
+              tx_data_valid <= '0';
+              tx_result_reg <= IPTX_RESULT_ERR;
+              tx_state <= IDLE;              
             end if;
           when others =>
             tx_state <= IDLE;
         end case; -- tx_state
 
         case tx_count_mode is
-          when RST  => tx_count := x"000";
-          when SET  => tx_count := tx_count_val;
-          when INCR => tx_count := tx_count + 1;
-          when HOLD => tx_count := tx_count;
+          when RST  => tx_count <= x"000";
+          when INCR => tx_count <= tx_count + 1;
+          when HOLD => tx_count <= tx_count;
         end case;
 
       end if; -- reset

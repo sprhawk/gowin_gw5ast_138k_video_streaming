@@ -63,7 +63,7 @@ architecture Behavioral of arp_tx is
   signal tx_mode          : tx_mode_t;  -- what sort of tx to make
   signal target           : arp_entry_t;  -- target to send to
 
-  -- due to changed req/sync
+  -- due to changed req/sync 
   signal ip_entry_reg     : std_logic_vector (31 downto 0);
   -- busses
   signal next_tx_state : tx_state_t;
@@ -143,6 +143,7 @@ begin
             data_out_first_done <= '0';
             data_out_valid <= '0';
             tx_count_mode := RST;
+            set_chn_reqd <= CLR;
             if send_I_have_reg = '1' then
               set_chn_reqd    <= SET;
               tx_mode     <= REPLY;
