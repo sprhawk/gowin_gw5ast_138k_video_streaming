@@ -51,7 +51,6 @@ architecture Behavioral of UDP_RX is
 
   -- state variables
   signal rx_state         : rx_state_type;
-  -- signal rx_count         : unsigned (15 downto 0);
   signal src_port         : std_logic_vector (15 downto 0);  -- src port captured from input
   signal dst_port         : std_logic_vector (15 downto 0);  -- dst port captured from input
   signal data_len         : std_logic_vector (15 downto 0);  -- user data length captured from input
@@ -61,8 +60,6 @@ architecture Behavioral of UDP_RX is
 
   -- rx control signals
   signal rx_event         : rx_event_type;
-  -- signal rx_count_mode    : settable_count_mode_type;
-  -- signal rx_count_val     : unsigned (15 downto 0);
   signal set_udp_rx_start : set_clr_type;
   signal set_hdr_valid    : set_clr_type;
   signal dataval          : std_logic_vector (7 downto 0);
@@ -95,170 +92,6 @@ begin
   -----------------------------------------------------------------------
   -- combinatorial process to implement FSM and determine control signals
   -----------------------------------------------------------------------
-
-  -- rx_combinatorial : process (
-  --   -- input signals
-  --   ip_rx, ip_rx_start,
-  --   -- state variables
-  --   rx_state, rx_count, src_port, dst_port, data_len, udp_rx_start_reg, hdr_valid_reg, src_ip_addr,
-  --   -- control signals
-  --   next_rx_state, set_rx_state, rx_event, rx_count_mode, rx_count_val,
-  --   set_sph, set_spl, set_dph, set_dpl, set_len_H, set_len_L, set_data_last,
-  --   set_udp_rx_start, set_hdr_valid, dataval, set_pkt_cnt, set_src_ip
-  --   )
-  -- begin
-  --   -- set output followers
-  --   udp_rx_start            <= udp_rx_start_reg;
-  --   udp_rxo.hdr.is_valid    <= hdr_valid_reg;
-  --   udp_rxo.hdr.data_length <= data_len;
-  --   udp_rxo.hdr.src_port    <= src_port;
-  --   udp_rxo.hdr.dst_port    <= dst_port;
-  --   udp_rxo.hdr.src_ip_addr <= src_ip_addr;
-
-  --   -- transfer data upstream if in user data phase
-  --   if rx_state = USER_DATA then
-  --     udp_rxo.data.data_in       <= ip_rx.data.data_in;
-  --     udp_rxo.data.data_in_valid <= ip_rx.data.data_in_valid;
-  --     udp_rxo.data.data_in_last  <= set_data_last;
-  --   else
-  --     udp_rxo.data.data_in       <= (others => '0');
-  --     udp_rxo.data.data_in_valid <= '0';
-  --     udp_rxo.data.data_in_last  <= '0';
-  --   end if;
-
-  --   -- set signal defaults
-  --   next_rx_state    <= IDLE;
-  --   set_rx_state     <= '0';
-  --   rx_event         <= NO_EVENT;
-  --   rx_count_mode    <= HOLD;
-  --   set_sph          <= '0';
-  --   set_spl          <= '0';
-  --   set_dph          <= '0';
-  --   set_dpl          <= '0';
-  --   set_len_H        <= '0';
-  --   set_len_L        <= '0';
-  --   set_udp_rx_start <= HOLD;
-  --   set_hdr_valid    <= HOLD;
-  --   dataval          <= (others => '0');
-  --   set_src_ip       <= '0';
-  --   rx_count_val     <= (others => '0');
-  --   set_data_last    <= '0';
-
-  --   -- determine event (if any)
-  --   if ip_rx.data.data_in_valid = '1' then
-  --     rx_event <= DATA;
-  --     dataval  <= ip_rx.data.data_in;
-  --   end if;
-
-  --   -- RX FSM
-  --   case rx_state is
-  --     when IDLE =>
-  --       rx_count_mode <= RST;
-  --       case rx_event is
-  --         when NO_EVENT =>              -- (nothing to do)
-  --         when DATA =>
-  --           if ip_rx.hdr.protocol = x"11" then
-  --                                       -- UDP protocol
-  --             rx_count_mode <= INCR;
-  --             set_hdr_valid <= CLR;
-  --             set_src_ip    <= '1';
-  --             set_sph       <= '1';
-  --             next_rx_state <= UDP_HDR;
-  --             set_rx_state  <= '1';
-  --           else
-  --                                       -- non-UDP protocol - ignore this pkt
-  --             set_hdr_valid <= CLR;
-  --             next_rx_state <= WAIT_END;
-  --             set_rx_state  <= '1';
-  --           end if;
-  --       end case;
-
-  --     when UDP_HDR =>
-  --       case rx_event is
-  --         when NO_EVENT =>              -- (nothing to do)
-  --         when DATA =>
-  --           if rx_count = x"0007" then
-  --             rx_count_mode <= SET_VAL;
-  --             rx_count_val  <= x"0001";
-  --             next_rx_state <= USER_DATA;
-  --             set_rx_state  <= '1';
-  --           else
-  --             rx_count_mode <= INCR;
-  --           end if;
-  --                                       -- handle early frame termination
-  --           if ip_rx.data.data_in_last = '1' then
-  --             next_rx_state <= IDLE;
-  --             set_rx_state  <= '1';
-  --           else
-  --             case rx_count is
-  --               when x"0000" => set_sph <= '1';
-  --               when x"0001" => set_spl <= '1';
-  --               when x"0002" => set_dph <= '1';
-  --               when x"0003" => set_dpl <= '1';
-
-  --               when x"0004" => set_len_H <= '1';
-  --               when x"0005" => set_len_L <= '1'; set_hdr_valid <= SET;  -- header values are now valid, although the pkt may not be for us
-
-  --               when x"0006" =>                           -- ignore checksum values
-  --               when x"0007" => set_udp_rx_start <= SET;  -- indicate frame received
-
-
-  --               when others =>  -- ignore other bytes in udp header                                                                              
-  --             end case;
-  --           end if;
-  --       end case;
-        
-  --     when USER_DATA =>
-  --       case rx_event is
-  --         when NO_EVENT =>              -- (nothing to do)
-  --         when DATA =>
-  --                                       -- note: data gets transfered upstream as part of "output followers" processing
-  --           if rx_count = unsigned(data_len) then
-  --             set_udp_rx_start <= CLR;
-  --             rx_count_mode    <= RST;
-  --             set_data_last    <= '1';
-  --             if ip_rx.data.data_in_last = '1' then
-  --               next_rx_state    <= IDLE;
-  --               set_udp_rx_start <= CLR;
-  --             else
-  --               next_rx_state <= WAIT_END;
-  --             end if;
-  --             set_rx_state <= '1';
-  --           else
-  --             rx_count_mode <= INCR;
-  --                                       -- check for early frame termination
-  --                                       -- TODO need to mark frame as errored
-  --             if ip_rx.data.data_in_last = '1' then
-  --               next_rx_state <= IDLE;
-  --               set_rx_state  <= '1';
-  --               set_data_last <= '1';
-  --             end if;
-  --           end if;
-  --       end case;
-
-  --     when ERR =>
-  --       if ip_rx.data.data_in_last = '0' then
-  --         next_rx_state <= WAIT_END;
-  --         set_rx_state  <= '1';
-  --       else
-  --         next_rx_state <= IDLE;
-  --         set_rx_state  <= '1';
-  --       end if;
-        
-
-  --     when WAIT_END =>
-  --       case rx_event is
-  --         when NO_EVENT =>              -- (nothing to do)
-  --         when DATA =>
-  --           if ip_rx.data.data_in_last = '1' then
-  --             next_rx_state <= IDLE;
-  --             set_rx_state  <= '1';
-  --           end if;
-  --       end case;
-        
-  --   end case;
-    
-  -- end process;
 
   udp_rx_start               <= udp_rx_start_reg;
   udp_rxo.hdr.is_valid       <= hdr_valid_reg;
@@ -372,7 +205,6 @@ begin
                   end case;
                 end if; -- ip_rx.data.data_in_last = '1'
             end case;
-            
           when USER_DATA =>
             case rx_event is
               when NO_EVENT => -- (nothing to do)
@@ -415,7 +247,6 @@ begin
                   rx_state <= IDLE;
                 end if;
             end case;
-            
         end case; -- rx_state
       end if; -- reset
     end if; -- rising_edge

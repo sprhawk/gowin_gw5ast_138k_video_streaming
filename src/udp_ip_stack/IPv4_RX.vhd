@@ -223,7 +223,7 @@ begin
                   ip_rx_start_reg <= '0';
                   set_data_last     <= '1';
                   rx_state          <= IDLE;
-                  rx_count_mode     := RST;    
+                  rx_count_mode     := RST;
                 else
                   case rx_count is
                     when x"000c" =>
@@ -262,7 +262,6 @@ begin
                       if dataval /= x"45" then  -- ignore pkts that are not v4 with 5 header words
                         rx_state <= WAIT_END;
                       end if;
-                      
                     when x"0002" =>
                       data_len (15 downto 8) <= dataval;
                       data_len (7 downto 0)  <= x"00";
@@ -323,22 +322,11 @@ begin
                       end if;
                       -- header values are now valid, although the pkt may not be for us
                       hdr_valid_reg <= '1';
-
-                      --if dst_ip_rx = our_ip_address or dst_ip_rx = IP_BC_ADDR then
-                      --  next_rx_state   <= USER_DATA;
-                      --  set_pkt_cnt     <= INCR;  -- count another pkt received
-                      --  set_rx_state    <= '1';
-                      --  set_ip_rx_start <= SET;
-                      --else
-                      --  next_rx_state <= WAIT_END;
-                      --  set_rx_state  <= '1';
-                      --end if;
-                      
-                    when others =>  -- ignore other bytes in ip header                                                                               
+                    when others =>  -- ignore other bytes in ip header
                   end case;
                 end if;
             end case;
-            
+
           when USER_DATA =>
             case rx_event is
               when NO_EVENT => -- (nothing to do)
